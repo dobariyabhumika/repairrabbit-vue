@@ -12,8 +12,7 @@
 
 <script>
 import Navigation from '@/components/Navigation.vue'
-// import { USER_REQUEST } from 'store/actions/user.js'
-// import SqreenFooter from './components/footer/index.vue'
+import { USER_REQUEST } from './store/actions/user.js'
 
 export default {
   components: {
@@ -24,7 +23,7 @@ export default {
   created: function () {
     console.log('callll', this.$store.getters.isAuthenticated)
     if (this.$store.getters.isAuthenticated) {
-      this.$store.dispatch('USER_REQUEST')
+      this.$store.dispatch(USER_REQUEST)
     }
   }
 }
