@@ -17,6 +17,7 @@ const ifNotAuthenticated = (to, from, next) => {
 
 const ifAuthenticated = (to, from, next) => {
   if (store.getters.isAuthenticated) {
+    Vue.http.headers.common.Authorization = `Bearer ${localStorage.getItem('api_token')}`
     next()
     return
   }

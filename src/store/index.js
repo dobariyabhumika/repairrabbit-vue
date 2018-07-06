@@ -2,14 +2,22 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import user from './modules/user'
 import auth from './modules/auth'
-Vue.use(Vuex)
+import createLogger from 'vuex/dist/logger.js'
 
-const debug = process.env.NODE_ENV !== 'production'
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     user,
     auth
   },
-  strict: debug
+  /**
+  * If strict mode should be used
+  */
+  strict: process.env.NODE_ENV !== 'production',
+
+  /**
+  * Plugins for Vuex
+  */
+  plugins: process.env.NODE_ENV !== 'production' ? [createLogger()] : []
 })

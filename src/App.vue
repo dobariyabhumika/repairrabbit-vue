@@ -21,7 +21,6 @@ export default {
   },
   name: 'app',
   created: function () {
-    console.log('callll', this.$store.getters.isAuthenticated)
     if (this.$store.getters.isAuthenticated) {
       this.$store.dispatch(USER_REQUEST)
     }

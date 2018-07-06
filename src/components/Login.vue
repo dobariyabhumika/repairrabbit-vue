@@ -1,6 +1,7 @@
 <template>
   <div id="login">
     <h1>Login</h1>
+    <ul v-if="loginerrors">{{loginerrors}}</ul>
     <input type="text" name="email" v-model="email" placeholder="Email" />
     <input type="password" name="password" v-model="password" placeholder="Password" />
     <button v-on:click="login()">Login</button>
@@ -9,7 +10,7 @@
 
 <script>
 import {AUTH_REQUEST} from '../store/actions/auth.js'
-// import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'login',
@@ -19,6 +20,9 @@ export default {
       password: ''
     }
   },
+  computed: mapGetters([
+    'loginerrors'
+  ]),
   methods: {
     login: function () {
       const { email, password } = this
@@ -26,9 +30,6 @@ export default {
         .then(() => {
           this.$router.push('/dashboard')
         })
-      // .catch(err => {
-      //     console.log(err, 'errrr')
-      // })
     }
   }
 }

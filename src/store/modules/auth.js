@@ -1,36 +1,31 @@
 /* eslint-disable promise/param-names */
 import { AUTH_REQUEST, AUTH_ERROR, AUTH_SUCCESS, AUTH_LOGOUT } from '../actions/auth'
 import { USER_REQUEST } from '../actions/user'
-import apiCall from '../../utils/api'
-// import axios from 'axios'
+// import apiCall from '../../utils/api'
+import Vue from 'vue'
 
-const state = { token: localStorage.getItem('api_token') || '', status: '', hasLoadedOnce: false }
+const state = { token: localStorage.getItem('api_token') || '', status: '', hasLoadedOnce: false, errors: null }
 
 const getters = {
   isAuthenticated: state => !!state.token,
-  authStatus: state => state.status
+  authStatus: state => state.status,
+  loginerrors: state => state.errors
 }
 
 const actions = {
   [AUTH_REQUEST]: ({commit, dispatch}, user) => {
-    return new Promise((resolve, reject) => {
-      commit(AUTH_REQUEST)
-      apiCall({url: `${process.env.API_URL}/api/v1/login`, data: user, method: 'POST'})
-        .then(resp => {
-          localStorage.setItem('api_token', resp.token)
-          // Here set the header of your ajax library to the token value.
-          // example with axios
-          // axios.defaults.headers.common['Authorization'] = `Bearer ${resp.token}`
-          commit(AUTH_SUCCESS, resp)
-          dispatch(USER_REQUEST)
-          resolve(resp)
-        })
-        .catch(err => {
-          commit(AUTH_ERROR, err)
-          localStorage.removeItem('api_token')
-          reject(err)
-        })
-    })
+    commit(AUTH_REQUEST)
+    return Vue.http
+      .post(`${process.env.API_URL}/api/v1/login`, user)
+      .then((response) => {
+        localStorage.setItem('api_token', response.data.token)
+        Vue.http.headers.common.Authorization = `Bearer ${response.data.token}`
+        commit(AUTH_SUCCESS, response.data)
+        dispatch(USER_REQUEST)
+      }, errors => {
+        commit(AUTH_ERROR, errors.body)
+        localStorage.removeItem('api_token')
+      })
   },
   [AUTH_LOGOUT]: ({commit, dispatch}) => {
     return new Promise((resolve, reject) => {
@@ -50,8 +45,9 @@ const mutations = {
     state.token = resp.token
     state.hasLoadedOnce = true
   },
-  [AUTH_ERROR]: (state) => {
+  [AUTH_ERROR]: (state, errors) => {
     state.status = 'error'
+    state.errors = errors.messages
     state.hasLoadedOnce = true
   },
   [AUTH_LOGOUT]: (state) => {
