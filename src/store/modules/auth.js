@@ -18,10 +18,19 @@ const actions = {
     return Vue.http
       .post(`${process.env.API_URL}/api/v1/login`, user)
       .then((response) => {
-        localStorage.setItem('api_token', response.data.token)
-        Vue.http.headers.common.Authorization = `Bearer ${response.data.token}`
-        commit(AUTH_SUCCESS, response.data)
-        dispatch(USER_REQUEST)
+        if (response.data.role === 4) {
+          localStorage.setItem('api_token', response.data.token)
+          Vue.http.headers.common.Authorization = `Bearer ${response.data.token}`
+          commit(AUTH_SUCCESS, response.data)
+          dispatch(USER_REQUEST)
+        } else {
+          let loginerrors = {
+            messages: ''
+          }
+          loginerrors.messages = ['Your credentials are invalid.']
+          commit(AUTH_ERROR, loginerrors)
+          localStorage.removeItem('api_token')
+        }
       }, errors => {
         commit(AUTH_ERROR, errors.body)
         localStorage.removeItem('api_token')
