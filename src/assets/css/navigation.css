@@ -7,23 +7,26 @@ a {
   color: white;
   align-items: center;
   background-color: #ffa035;
+  justify-content: space-between;
   padding: 5px;
+}
 
-  ul{
-    display: flex;
-    &:first-child{
-      flex-grow: 1;
-    }
-    li {
-      padding-right: 1em;
-    }
+.navigation ul{
+  display: flex;
+  &:first-child{
+    flex-grow: 1;
   }
 }
+
+.navigation li {
+  padding-right: 1em;
+}
+
 .brand {
   display: flex;
   align-items: center;
-
 }
+
 .logout {
   &:hover {
     cursor: pointer;

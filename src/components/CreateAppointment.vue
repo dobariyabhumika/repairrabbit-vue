@@ -66,5 +66,5 @@ export default {
 }
 </script>
 
-<style src="../assets/css/appointment.css"></style>
+<style src="../assets/css/create-appointment.css"></style>
 
