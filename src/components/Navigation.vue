@@ -25,40 +25,6 @@
   </div>
 </template>
 
-<style scoped>
-a {
-  color: white;
-  text-decoration: none;
-}
-.navigation {
-  display: flex;
-  color: white;
-  align-items: center;
-  background-color: #ffa035;
-  padding: 5px;
-
-  ul{
-    display: flex;
-    &:first-child{
-      flex-grow: 1;
-    }
-    li {
-      padding-right: 1em;
-    }
-  }
-}
-.brand {
-  display: flex;
-  align-items: center;
-
-}
-.logout {
-  &:hover {
-    cursor: pointer;
-  }
-}
-</style>
-
 <script>
 import { mapGetters, mapState } from 'vuex'
 import { AUTH_LOGOUT } from '../store/actions/auth.js'
@@ -79,3 +45,5 @@ export default {
   }
 }
 </script>
+
+<style src="../assets/css/navigation.css"></style>

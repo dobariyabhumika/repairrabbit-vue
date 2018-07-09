@@ -1,0 +1,2 @@
+export const GET_ALL_DEVICE = 'GET_ALL_DEVICE'
+export const SET_ALL_DEVICE = 'SET_ALL_DEVICE'

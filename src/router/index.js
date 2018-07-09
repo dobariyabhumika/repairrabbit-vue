@@ -3,9 +3,17 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard.vue'
+import CreateAppointment from '@/components/CreateAppointment.vue'
 import store from '@/store'
+import vSelect from 'vue-select'
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.use(BootstrapVue)
 
 Vue.use(Router)
+Vue.component('v-select', vSelect)
 
 const ifNotAuthenticated = (to, from, next) => {
   if (!store.getters.isAuthenticated) {
@@ -25,7 +33,6 @@ const ifAuthenticated = (to, from, next) => {
 }
 
 export default new Router({
-  base: '/admin',
   mode: 'history',
   routes: [
     {
@@ -44,6 +51,12 @@ export default new Router({
       name: 'Login',
       component: Login,
       beforeEnter: ifNotAuthenticated
+    },
+    {
+      path: '/create-appointment',
+      name: 'create-appointment',
+      component: CreateAppointment,
+      beforeEnter: ifAuthenticated
     }
   ]
 })
